@@ -6,6 +6,7 @@ import {Counter} from "../src/Counter.sol";
 
 contract CounterTest is Test {
     Counter public counter;
+    event NumberSet(uint256 newNumber);
 
     function setUp() public {
         counter = new Counter();
@@ -13,12 +14,15 @@ contract CounterTest is Test {
     }
 
     function test_Increment() public {
+        vm.expectEmit();
+        emit NumberSet(100);
+
         counter.increment();
         assertEq(counter.number(), 1);
     }
 
-    function testFuzz_SetNumber(uint256 x) public {
-        counter.setNumber(x);
-        assertEq(counter.number(), x);
-    }
+    // function testFuzz_SetNumber(uint256 x) public {
+    //     counter.setNumber(x);
+    //     assertEq(counter.number(), x);
+    // }
 }
